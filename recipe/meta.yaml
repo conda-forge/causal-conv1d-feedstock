@@ -10,10 +10,11 @@ source:
     sha256: 100fcc9f7db5888dc01d3fc53d0ea6f168b91128994d41a82ecec07c8eb7d9db
 
 build:
-  number: 0
+  number: 1
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
+  skip: true  # [win]
 
 requirements:
   build:
