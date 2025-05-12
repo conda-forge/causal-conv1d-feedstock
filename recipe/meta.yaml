@@ -11,7 +11,10 @@ source:
 
 build:
   number: 1
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script:
+    - export CAUSAL_CONV1D_FORCE_BUILD=TRUE  # [unix]
+    - set CAUSAL_CONV1D_FORCE_BUILD=TRUE     # [win]
+    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
   skip: true  # [win]
