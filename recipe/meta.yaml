@@ -18,8 +18,10 @@ build:
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ compiler('cuda') }}
     - {{ stdlib('c') }}
   host:
+    - cuda-toolkit
     - cython
     - ninja
     - pip
