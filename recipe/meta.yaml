@@ -30,12 +30,12 @@ requirements:
     - {{ compiler('cuda') }}
     - {{ stdlib('c') }}
   host:
-    - build
     - cuda-toolkit
     - cython
     - ninja
     - pip
     - python
+    - python-build
     - pytorch
     - setuptools >=18.0
   run:
