@@ -30,6 +30,7 @@ requirements:
     - {{ compiler('cuda') }}
     - {{ stdlib('c') }}
   host:
+    - build
     - cuda-toolkit
     - cython
     - ninja
