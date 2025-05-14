@@ -14,11 +14,11 @@ build:
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
+    - export CONDA_BUILD=1                       # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE         # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE     # [win]
-    - mkdir -p $SRC_DIR/tmp_install              # [unix]
-    - pip install dist/*.whl -vv --no-deps --no-build-isolation --prefix=$SRC_DIR/tmp_install
-    - cp -r $SRC_DIR/tmp_install/* $PREFIX/      # [unix]
+    - set CONDA_BUILD=1                          # [win]
+    - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
   skip: true  # [win]
