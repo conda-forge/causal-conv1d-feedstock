@@ -16,9 +16,9 @@ build:
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE         # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE     # [win]
-    # 1) build the wheel outside $PREFIX
-    - {{ PYTHON }} -m pip wheel . -vv --no-deps --no-build-isolation -w dist
-    # 2) install that wheel into $PREFIX
+    # 1) Build wheel using pypa/build
+    - {{ PYTHON }} -m build --wheel --no-isolation -o dist
+    # 2) Install using pip (avoids setup.py)
     - {{ PYTHON }} -m pip install dist/*.whl -vv --no-deps --no-build-isolation
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
