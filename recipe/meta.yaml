@@ -14,12 +14,8 @@ build:
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
-    - export CONDA_BUILD=1                       # [unix]
-    - unset CONDA_BUILD                          # [linux]
-    - set CAUSAL_CONV1D_FORCE_BUILD=TRUE         # [win]
-    - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE     # [win]
-    - set CONDA_BUILD=1                          # [win]
-    - set CONDA_BUILD=                           # [win]
+    - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
+    - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
     - {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
   ignore_prefix_files:
     - x86_64-conda-linux-gnu/lib/libgfortran.so*
