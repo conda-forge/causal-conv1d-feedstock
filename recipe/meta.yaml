@@ -20,9 +20,6 @@ build:
   ignore_prefix_files:
     - x86_64-conda-linux-gnu/lib/libgfortran.so*
     - lib/gcc/x86_64-conda-linux-gnu/*/libhwasan.so
-  ignore_prefix_files:
-    - x86_64-conda-linux-gnu/lib/libgfortran.so*
-    - lib/gcc/x86_64-conda-linux-gnu/*/libhwasan.so
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
   skip: true  # [win]
