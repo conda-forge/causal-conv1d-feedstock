@@ -16,7 +16,7 @@ build:
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
-    - {{ PYTHON }} -m build --wheel --no-isolation --skip-dependency-check . -C="--global-option=--cuda_ext" -C="--global-option=--deprecated_style"
+    - {{ PYTHON }} -m build --wheel --no-isolation --skip-dependency-check .
     - {{ PYTHON }} -m pip install dist/causal_conv1d-*.whl --no-deps -vv
   ignore_prefix_files:
     - x86_64-conda-linux-gnu/lib/libgfortran.so*
