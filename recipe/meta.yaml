@@ -1,5 +1,5 @@
 {% set name = "causal-conv1d" %}
-{% set version = "1.5.0.post8" %}
+{% set version = "1.5.2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   - url: https://github.com/Dao-AILab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 100fcc9f7db5888dc01d3fc53d0ea6f168b91128994d41a82ecec07c8eb7d9db
+    sha256: 53fabaf24436d5bb4e1af261961cc22cc8203ca10cc3b618e5c8462c3a4be3de
 
 build:
-  number: 1
+  number: 0
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
@@ -43,7 +43,7 @@ requirements:
     - python-build
     - pytorch
     - setuptools >=18.0
-    - wheel    
+    - wheel
   run:
     - cuda-cudart
     - packaging
