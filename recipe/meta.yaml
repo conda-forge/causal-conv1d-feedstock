@@ -10,22 +10,40 @@ source:
     sha256: 100fcc9f7db5888dc01d3fc53d0ea6f168b91128994d41a82ecec07c8eb7d9db
 
 build:
-  number: 0
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 1
+  script:
+    - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
+    - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
+    - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
+    - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
+    - {{ PYTHON }} -m build --wheel --no-isolation --skip-dependency-check .
+    - {{ PYTHON }} -m pip install dist/causal_conv1d-*.whl --no-deps -vv
+  ignore_prefix_files:
+    - x86_64-conda-linux-gnu/lib/libgfortran.so*
+    - lib/gcc/x86_64-conda-linux-gnu/*/libhwasan.so
+  ignore_run_exports:
+    - python
+    - packaging
   skip: true  # [cuda_compiler_version == "None"]
   skip: true  # [cuda_compiler_version == "11.8"]
+  skip: true  # [win]
 
 requirements:
   build:
     - {{ compiler('cxx') }}
+    - {{ compiler('cuda') }}
     - {{ stdlib('c') }}
   host:
+    - cuda-toolkit
     - cython
     - ninja
+    - packaging
     - pip
     - python
+    - python-build
     - pytorch
     - setuptools >=18.0
+    - wheel    
   run:
     - cuda-cudart
     - packaging
