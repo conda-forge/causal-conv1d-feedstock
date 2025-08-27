@@ -10,12 +10,13 @@ source:
     sha256: 53fabaf24436d5bb4e1af261961cc22cc8203ca10cc3b618e5c8462c3a4be3de
 
 build:
-  number: 1
+  number: 2
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
+    - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
     - {{ PYTHON }} -m build --wheel --no-isolation --skip-dependency-check .
     - {{ PYTHON }} -m pip install dist/causal_conv1d-*.whl --no-deps -vv
   ignore_prefix_files:
@@ -24,15 +25,15 @@ build:
   ignore_run_exports:
     - python
     - packaging
-  skip: true  # [cuda_compiler_version == "None"]
-  skip: true  # [cuda_compiler_version == "11.8"]
-  skip: true  # [win]
+  skip: true  # [cuda_compiler_version == "None" or cuda_compiler_version == "11.8" or win]
 
 requirements:
   build:
     - {{ compiler('cxx') }}
     - {{ compiler('cuda') }}
     - {{ stdlib('c') }}
+    - sed     # [unix]
+    - m2-sed  # [win]
   host:
     - cuda-toolkit
     - cython
@@ -53,9 +54,10 @@ requirements:
 test:
   imports:
     - causal_conv1d
-  # removed pip check because ninja is not available
-  # see https://github.com/conda-forge/ninja-feedstock/issues/26
-  # TODO: Enable pip check with a release with https://github.com/Dao-AILab/causal-conv1d/pull/50
+  requires:
+    - pip
+  commands:
+    - pip check
 
 about:
   home: https://github.com/Dao-AILab/causal-conv1d
