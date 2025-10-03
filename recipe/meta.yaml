@@ -1,5 +1,5 @@
 {% set name = "causal-conv1d" %}
-{% set version = "1.5.2" %}
+{% set version = "1.5.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,10 +7,10 @@ package:
 
 source:
   - url: https://github.com/Dao-AILab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 53fabaf24436d5bb4e1af261961cc22cc8203ca10cc3b618e5c8462c3a4be3de
+    sha256: 8394ebfbcb16978ee2caf9f1611f607432caa52c3ba267eee977fcb7c3d183f1
 
 build:
-  number: 3
+  number: 0
   string: cuda{{ cuda_compiler_version | replace('.', '') }}py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
