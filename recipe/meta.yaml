@@ -1,5 +1,5 @@
 {% set name = "causal-conv1d" %}
-{% set version = "1.5.3.post1" %}
+{% set version = "1.5.3.post2" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/Dao-AILab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: 8b9d8cd34856dca1ce238e6520c18bcbd474d76e40848f6b47aec7ff355e05c1
+    sha256: 42a14958e90de10bdb4cdcda8fe313406a644b52206465cab3a26cdcc2169847
 
 build:
   number: 0
