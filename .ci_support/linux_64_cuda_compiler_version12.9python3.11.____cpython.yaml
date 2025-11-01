@@ -23,9 +23,9 @@ pin_run_as_build:
 python:
 - 3.11.* *_cpython
 pytorch:
-- '2.7'
+- '2.8'
 target_platform:
-- linux-aarch64
+- linux-64
 zip_keys:
 - - cxx_compiler_version
   - c_stdlib_version
