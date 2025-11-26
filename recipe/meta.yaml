@@ -10,7 +10,7 @@ source:
     sha256: 198b4ebd9d4068e11b8742aaadfcb6304786cc752ce0fc46bf325c853ca49bc0
 
 build:
-  number: 1
+  number: 2
   string: cuda{{ cuda_compiler_version | replace('.', '') }}py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
