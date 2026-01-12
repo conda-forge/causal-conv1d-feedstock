@@ -20,6 +20,7 @@ build:
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
     - set MAX_JOBS=1                          # [win]
     - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
+    - sed -i 's@"--threads", "4"@"--threads", "1"@g' setup.py  # Reduce NVCC threads to prevent OOM
     - {{ PYTHON }} -m build --wheel --no-isolation --skip-dependency-check .
     - {{ PYTHON }} -m pip install dist/causal_conv1d-*.whl --no-deps -vv
   ignore_prefix_files:
