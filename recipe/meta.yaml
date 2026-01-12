@@ -15,10 +15,8 @@ build:
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
-    - export MAX_JOBS=1                          # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
-    - set MAX_JOBS=1                          # [win]
     - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
     - sed -i 's@"--threads", "4"@"--threads", "1"@g' setup.py  # Reduce NVCC threads to prevent OOM
     - {{ PYTHON }} -m build --wheel --no-isolation --skip-dependency-check .
