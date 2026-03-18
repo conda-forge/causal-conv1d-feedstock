@@ -47,7 +47,7 @@ requirements:
     - pip
     - python
     - python-build
-    - pytorch
+    - pytorch * cuda*
     - setuptools >=18.0
     - wheel
   run:
