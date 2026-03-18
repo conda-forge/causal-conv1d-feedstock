@@ -54,7 +54,7 @@ requirements:
     - cuda-cudart
     - packaging
     - python
-    - pytorch
+    - pytorch * cuda*
 
 test:
   imports:
