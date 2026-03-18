@@ -10,7 +10,7 @@ source:
     sha256: bc1eb586c7850f3676760511e76584ebca0882c1f9ed13414b4862ee547d11bb
 
 build:
-  number: 0
+  number: 1
   string: cuda{{ cuda_compiler_version | replace('.', '') }}py{{ CONDA_PY }}h{{ PKG_HASH }}_{{ PKG_BUILDNUM }}
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
@@ -47,14 +47,14 @@ requirements:
     - pip
     - python
     - python-build
-    - pytorch
+    - pytorch * cuda*
     - setuptools >=18.0
     - wheel
   run:
     - cuda-cudart
     - packaging
     - python
-    - pytorch
+    - pytorch * cuda*
 
 test:
   imports:
