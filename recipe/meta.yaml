@@ -15,6 +15,7 @@ build:
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
+    - export CUDA_HOME="${BUILD_PREFIX}"          # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
     - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
@@ -39,22 +40,23 @@ requirements:
     - sed     # [unix]
     - m2-sed  # [win]
     - python                                # [build_platform != target_platform]
-    - pytorch                               # [build_platform != target_platform]
+    - pytorch 2.10.* *cuda*                 # [build_platform != target_platform]
   host:
-    - cuda-toolkit
+    - cuda-cudart-dev
+    - cuda-version {{ cuda_compiler_version }}
     - ninja
     - packaging
     - pip
     - python
     - python-build
-    - pytorch
+    - pytorch 2.10.* *cuda*
     - setuptools >=18.0
     - wheel
   run:
     - cuda-cudart
     - packaging
     - python
-    - pytorch
+    - pytorch 2.10.* *cuda*
 
 test:
   imports:
