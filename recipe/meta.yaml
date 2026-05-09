@@ -42,8 +42,8 @@ requirements:
     - python                                # [build_platform != target_platform]
     - pytorch 2.10.* *cuda*                # [build_platform != target_platform]
   host:
-    - cuda-toolkit >=12.9.1,<13  # [cuda_compiler_version == "12.9"]
-    - cuda-toolkit               # [cuda_compiler_version != "12.9"]
+    - cuda-cudart-dev
+    - cuda-version {{ cuda_compiler_version }}
     - ninja
     - packaging
     - pip
