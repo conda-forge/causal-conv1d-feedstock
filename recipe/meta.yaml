@@ -48,14 +48,14 @@ requirements:
     - pip
     - python
     - python-build
-    - pytorch
+    - pytorch * cuda*
     - setuptools >=18.0
     - wheel
   run:
     - cuda-cudart
     - packaging
     - python
-    - pytorch
+    - pytorch * cuda*
 
 test:
   imports:
