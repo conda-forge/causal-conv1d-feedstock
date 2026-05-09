@@ -1,5 +1,5 @@
 {% set name = "causal-conv1d" %}
-{% set version = "1.6.2" %}
+{% set version = "1.6.2.post1" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   - url: https://github.com/Dao-AILab/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
-    sha256: fd6d0d2876b8d837f35994d7fec74a026bce9a749f37ab802bee18fb42830de1
+    sha256: 4589196e0afd58a015f32dd7333183e1bb582c928d0a333496b6ec86f462012d
 
 build:
   number: 0
@@ -40,7 +40,7 @@ requirements:
     - sed     # [unix]
     - m2-sed  # [win]
     - python                                # [build_platform != target_platform]
-    - pytorch 2.10.* *cuda*                # [build_platform != target_platform]
+    - pytorch 2.10.* *cuda*                 # [build_platform != target_platform]
   host:
     - cuda-cudart-dev
     - cuda-version {{ cuda_compiler_version }}
