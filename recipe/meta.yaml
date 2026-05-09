@@ -40,7 +40,8 @@ requirements:
     - sed     # [unix]
     - m2-sed  # [win]
     - python                                # [build_platform != target_platform]
-    - pytorch                               # [build_platform != target_platform]
+    - pytorch <2.8 *cuda*                  # [build_platform != target_platform and target_platform == "linux-aarch64" and cuda_compiler_version == "12.9"]
+    - pytorch * cuda*                      # [build_platform != target_platform and (target_platform != "linux-aarch64" or cuda_compiler_version != "12.9")]
   host:
     - cuda-toolkit
     - ninja
