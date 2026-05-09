@@ -15,6 +15,7 @@ build:
   script:
     - export CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [unix]
     - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [unix]
+    - export CUDA_HOME="${BUILD_PREFIX}"          # [unix]
     - set CAUSAL_CONV1D_FORCE_BUILD=TRUE      # [win]
     - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE  # [win]
     - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
