@@ -1,0 +1,95 @@
+schema_version: 1
+
+context:
+  name: causal-conv1d
+  version: "1.6.2.post1"
+  build_number: 3
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/Dao-AILab/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
+    sha256: 4589196e0afd58a015f32dd7333183e1bb582c928d0a333496b6ec86f462012d
+
+build:
+  number: ${{ build_number }}
+  string: ${{ "cuda" ~ (cuda_compiler_version | replace(".", "")) ~ "py" ~ (python | version_to_buildstring) ~ "h" ~ hash ~ "_" ~ build_number }}
+  skip:
+    - cuda_compiler_version == "None" or cuda_compiler_version == "11.8" or win
+  script:
+    - if: unix
+      then:
+        - export CAUSAL_CONV1D_FORCE_BUILD=TRUE
+        - export CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE
+        - export CUDA_HOME="${BUILD_PREFIX}"
+    - if: win
+      then:
+        - set CAUSAL_CONV1D_FORCE_BUILD=TRUE
+        - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE
+    - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
+    - sed -i 's@"--threads", "4"@"--threads", "1"@g' setup.py
+    - python -m build --wheel --no-isolation --skip-dependency-check .
+    - python -m pip install dist/causal_conv1d-*.whl --no-deps -vv
+  prefix_detection:
+    ignore:
+      - x86_64-conda-linux-gnu/lib/libgfortran.so*
+      - lib/gcc/x86_64-conda-linux-gnu/*/libhwasan.so
+
+requirements:
+  build:
+    - ${{ compiler("cxx") }}
+    - if: cuda_compiler_version != "None"
+      then: ${{ compiler("cuda") }}
+    - ${{ stdlib("c") }}
+    - if: build_platform != target_platform
+      then:
+        - cross-python_${{ target_platform }}
+        - cython
+        - python
+        - "pytorch 2.10.* *cuda*"
+    - if: unix
+      then: sed
+    - if: win
+      then: m2-sed
+  host:
+    - if: cuda_compiler_version != "None"
+      then: cuda-cudart-dev
+    - if: cuda_compiler_version != "None"
+      then: cuda-version ==${{ cuda_compiler_version }}
+    - ninja
+    - packaging
+    - pip
+    - python
+    - python-build
+    - "pytorch 2.10.* *cuda*"
+    - setuptools >=18.0
+    - wheel
+  run:
+    - ${{ pin_compatible("python") }}
+    - if: cuda_compiler_version != "None"
+      then: cuda-cudart
+    - packaging
+    - python
+    - python_abi * *_cp${{ python | version_to_buildstring }}
+    - "pytorch 2.10.* *cuda*"
+  ignore_run_exports:
+    from_package:
+      - packaging
+
+tests:
+  - python:
+      imports:
+        - causal_conv1d
+      pip_check: true
+
+about:
+  homepage: https://github.com/Dao-AILab/causal-conv1d
+  summary: Causal depthwise conv1d in CUDA, with a PyTorch interface
+  license: BSD-3-Clause
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - jeongseok-meta
