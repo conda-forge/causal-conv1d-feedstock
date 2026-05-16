@@ -67,14 +67,15 @@ requirements:
     - setuptools >=18.0
     - wheel
   run:
+    - ${{ pin_compatible("python") }}
     - if: cuda_compiler_version != "None"
       then: cuda-cudart
     - packaging
     - python
+    - python_abi * *_cp${{ python | version_to_buildstring }}
     - "pytorch 2.10.* *cuda*"
   ignore_run_exports:
     from_package:
-      - python
       - packaging
 
 tests:
