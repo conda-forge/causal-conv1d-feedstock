@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: causal-conv1d
   version: "1.6.2.post1"
-  build_number: 3
+  build_number: 4
 
 package:
   name: ${{ name|lower }}
@@ -58,9 +58,9 @@ requirements:
       then: m2-sed
   host:
     - if: cuda_compiler_version != "None"
-      then: cuda-cudart-dev
-    - if: cuda_compiler_version != "None"
-      then: cuda-version ==${{ cuda_compiler_version }}
+      then:
+        - cuda-cudart-dev
+        - cuda-version ==${{ cuda_compiler_version }}
     - ninja
     - packaging
     - pip
