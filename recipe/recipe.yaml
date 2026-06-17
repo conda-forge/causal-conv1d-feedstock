@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: causal-conv1d
   version: "1.6.2.post1"
-  build_number: 4
+  build_number: 5
 
 package:
   name: ${{ name|lower }}
@@ -18,7 +18,7 @@ build:
   string: ${{ "cuda" ~ (cuda_compiler_version | replace(".", "")) ~ "py" ~ (python | version_to_buildstring) ~ "h" ~ hash ~ "_" ~ build_number }}
   # Upstream only provides a CUDA extension. Keep no-CUDA and Windows variants
   # disabled until the PyTorch/CUDA compiler stack can build and test them here;
-  # CUDA 11.8 is outside this feedstock's current PyTorch 2.10 CUDA matrix.
+  # CUDA 11.8 is outside this feedstock's current PyTorch CUDA matrix.
   skip:
     - cuda_compiler_version == "None" or cuda_compiler_version == "11.8" or win
   script:
@@ -51,7 +51,7 @@ requirements:
         - cross-python_${{ target_platform }}
         - cython
         - python
-        - "pytorch 2.10.* *cuda*"
+        - "pytorch ${{ pytorch }}.* *cuda*"
     - if: unix
       then: sed
     - if: win
@@ -66,7 +66,7 @@ requirements:
     - pip
     - python
     - python-build
-    - "pytorch 2.10.* *cuda*"
+    - "pytorch ${{ pytorch }}.* *cuda*"
     - setuptools >=18.0
     - wheel
   run:
@@ -76,7 +76,7 @@ requirements:
     - packaging
     - python
     - python_abi * *_cp${{ python | version_to_buildstring }}
-    - "pytorch 2.10.* *cuda*"
+    - "pytorch ${{ pytorch }}.* *cuda*"
   ignore_run_exports:
     from_package:
       - packaging
