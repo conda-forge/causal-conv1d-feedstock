@@ -13,9 +13,9 @@ provider:
   linux_aarch64: default
 workflow_settings:
   build_workspace_dir:
-    - os: win
-      value: C:\\bld\\
+  - os: win
+    value: C:\\bld\\
   free_disk_space: max
   tools_install_dir:
-    - os: win
-      value: C:\Miniforge
+  - os: win
+    value: C:\Miniforge
