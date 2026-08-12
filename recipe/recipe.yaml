@@ -35,7 +35,12 @@ build:
     - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
     - sed -i 's@"--threads", "4"@"--threads", "1"@g' setup.py
     - python -m build --wheel --no-isolation --skip-dependency-check .
-    - python -m pip install dist/causal_conv1d-*.whl --no-deps -vv
+    - if: unix
+      then: python -m pip install dist/causal_conv1d-*.whl --no-deps -vv
+    # cmd.exe does not expand wildcard arguments, so enumerate the wheel in
+    # the generated batch script before passing its concrete path to pip.
+    - if: win
+      then: for %%f in (dist\causal_conv1d-*.whl) do python -m pip install "%%f" --no-deps -vv
   prefix_detection:
     ignore:
       - x86_64-conda-linux-gnu/lib/libgfortran.so*
