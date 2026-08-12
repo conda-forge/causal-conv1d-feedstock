@@ -3,7 +3,7 @@ schema_version: 1
 context:
   name: causal-conv1d
   version: "1.6.2.post1"
-  build_number: 6
+  build_number: 7
 
 package:
   name: ${{ name|lower }}
@@ -16,11 +16,13 @@ source:
 build:
   number: ${{ build_number }}
   string: ${{ "cuda" ~ (cuda_compiler_version | replace(".", "")) ~ "py" ~ (python | version_to_buildstring) ~ "h" ~ hash ~ "_" ~ build_number }}
-  # Upstream only provides a CUDA extension. Keep no-CUDA and Windows variants
-  # disabled until the PyTorch/CUDA compiler stack can build and test them here;
-  # CUDA 11.8 is outside this feedstock's current PyTorch CUDA matrix.
+  # Upstream only provides a CUDA extension. CUDA 11.8 is outside this
+  # feedstock's current PyTorch CUDA matrix.
   skip:
-    - cuda_compiler_version == "None" or cuda_compiler_version == "11.8" or win
+    - cuda_compiler_version == "None" or cuda_compiler_version == "11.8"
+    # PyTorch 2.13's Windows CUDA 12 build is pinned to CUDA 12.8, while the
+    # conda-forge compiler matrix currently provides 12.9 and 13.0 here.
+    - win and cuda_compiler_version != "13.0"
   script:
     - if: unix
       then:
@@ -30,11 +32,15 @@ build:
     - if: win
       then:
         - set CAUSAL_CONV1D_FORCE_BUILD=TRUE
-        - set CAUSAL_CONV1D_FORCE_CXX11_ABI=TRUE
     - sed -i.bak 's@"ninja"@#"ninja"@g' setup.py
     - sed -i 's@"--threads", "4"@"--threads", "1"@g' setup.py
     - python -m build --wheel --no-isolation --skip-dependency-check .
-    - python -m pip install dist/causal_conv1d-*.whl --no-deps -vv
+    - if: unix
+      then: python -m pip install dist/causal_conv1d-*.whl --no-deps -vv
+    # cmd.exe does not expand wildcard arguments, so enumerate the wheel in
+    # the generated batch script before passing its concrete path to pip.
+    - if: win
+      then: for %%f in (dist\causal_conv1d-*.whl) do python -m pip install "%%f" --no-deps -vv
   prefix_detection:
     ignore:
       - x86_64-conda-linux-gnu/lib/libgfortran.so*
@@ -61,6 +67,10 @@ requirements:
       then:
         - cuda-cudart-dev
         - cuda-version ==${{ cuda_compiler_version }}
+    # PyTorch compiles the C++ binding against CUDA headers in the host prefix.
+    # On Windows, cuda-cudart-dev does not include crt/host_defines.h.
+    - if: win
+      then: cuda-crt-dev_${{ target_platform }}
     - ninja
     - packaging
     - pip
@@ -94,5 +104,6 @@ about:
   license_file: LICENSE
 
 extra:
+  feedstock-name: causal-conv1d
   recipe-maintainers:
     - jeongseok-meta
