@@ -62,6 +62,10 @@ requirements:
       then:
         - cuda-cudart-dev
         - cuda-version ==${{ cuda_compiler_version }}
+    # PyTorch compiles the C++ binding against CUDA headers in the host prefix.
+    # On Windows, cuda-cudart-dev does not include crt/host_defines.h.
+    - if: win
+      then: cuda-crt-dev_${{ target_platform }}
     - ninja
     - packaging
     - pip
