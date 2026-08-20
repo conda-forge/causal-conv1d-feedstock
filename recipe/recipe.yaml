@@ -2,8 +2,8 @@ schema_version: 1
 
 context:
   name: causal-conv1d
-  version: "1.6.2.post1"
-  build_number: 7
+  version: "1.7.0"
+  build_number: 0
 
 package:
   name: ${{ name|lower }}
@@ -11,7 +11,7 @@ package:
 
 source:
   - url: https://github.com/Dao-AILab/${{ name }}/archive/refs/tags/v${{ version }}.tar.gz
-    sha256: 4589196e0afd58a015f32dd7333183e1bb582c928d0a333496b6ec86f462012d
+    sha256: 708bacd4fb4ef6cad3999c9360e2a0f9521f556748a745b60f746b275db73c09
 
 build:
   number: ${{ build_number }}
